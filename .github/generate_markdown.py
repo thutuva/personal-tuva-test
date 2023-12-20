@@ -1,5 +1,9 @@
 import yaml
 
+def fetch_yaml_local(yaml_path):
+    with open(yaml_path, 'r') as file:
+        return file.read()
+
 def generate_markdown(yaml_path, markdown_path):
     with open(yaml_path, 'r') as file:
         data = yaml.safe_load(file)
@@ -29,11 +33,14 @@ def generate_markdown(yaml_path, markdown_path):
             # Add a table row with the column name and description
             markdown_content += f"| {name} | {description} |\n"
 
+def write_markdown_local(markdown_path, markdown_content):
     # Write the generated Markdown content to the specified Markdown file
     with open(markdown_path, 'w') as markdown_file:
         markdown_file.write(markdown_content)
 
-    print(f"Markdown content has been successfully written to {markdown_path}")
+yaml_path = 'path/to/your/input.yml'
+markdown_path = 'path/to/your/output.md'
 
-# Example usage
-generate_markdown('C:/Users/magik/Desktop/input.yml', 'C:/Users/magik/Desktop/output.md')
+yaml_content = fetch_yaml_local(yaml_path)
+markdown_content = generate_markdown(yaml_content)
+write_markdown_local(markdown_path, markdown_content)

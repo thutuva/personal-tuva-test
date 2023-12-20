@@ -34,6 +34,8 @@ def generate_markdown(data):
 
 def write_markdown_local(markdown_path, markdown_content):
     # Write the generated Markdown content to the specified Markdown file
+    os.makedirs(os.path.dirname(markdown_path), exist_ok=True)
+    
     with open(markdown_path, 'w') as markdown_file:
         markdown_file.write(markdown_content)
 

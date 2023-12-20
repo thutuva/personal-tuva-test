@@ -1,3 +1,4 @@
+import os
 import yaml
 
 def fetch_yaml_local(yaml_path):

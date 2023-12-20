@@ -43,7 +43,18 @@ def write_markdown_local(markdown_path, markdown_content):
 yaml_path = 'models/core/core_models.yml'
 markdown_path = '.github/output.md'
 
+print("Fetching YAML content...")
+yaml_content = fetch_yaml_local(yaml_path)
+print("YAML content fetched successfully.")
+
+print("Loading YAML content...")
+data = yaml.safe_load(yaml_content)
+print("YAML content loaded successfully.")
+
 yaml_content = fetch_yaml_local(yaml_path)
 data = yaml.safe_load(yaml_content)
 markdown_content = generate_markdown(data)
 write_markdown_local(markdown_path, markdown_content)
+
+
+print(f"Full path of the output.md file: {os.path.abspath(markdown_path)}")

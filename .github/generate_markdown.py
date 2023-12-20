@@ -38,8 +38,8 @@ def write_markdown_local(markdown_path, markdown_content):
     with open(markdown_path, 'w') as markdown_file:
         markdown_file.write(markdown_content)
 
-yaml_path = 'path/to/your/input.yml'
-markdown_path = 'path/to/your/output.md'
+yaml_path = 'models/core/core_models.yml'
+markdown_path = '/.github/output.md'
 
 yaml_content = fetch_yaml_local(yaml_path)
 markdown_content = generate_markdown(yaml_content)

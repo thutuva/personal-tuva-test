@@ -25,5 +25,10 @@ jobs:
 
     - name: Generate Markdown
       run: |
-        cd .github
-        python generate_markdown.py
+        python .github/generate_markdown.py
+        
+    # - name: Commit and Push Markdown
+    #     run: |
+    #       git add output.md
+    #       git commit -m "Add generated Markdown"
+    #       git push

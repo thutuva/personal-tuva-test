@@ -27,7 +27,12 @@ jobs:
     - name: Generate Markdown
       run: |
         python .github/generate_markdown.py
-        
+
+    - name: Archive artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: markdown-artifact
+        path: .github/output.md
     # - name: Commit and Push Markdown
     #     run: |
     #       git add output.md

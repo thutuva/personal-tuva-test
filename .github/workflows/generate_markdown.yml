@@ -33,8 +33,10 @@ jobs:
       with:
         name: markdown-artifact
         path: .github/output.md
-    # - name: Commit and Push Markdown
-    #     run: |
-    #       git add output.md
-    #       git commit -m "Add generated Markdown"
-    #       git push
+
+    - name: Dispatch event to trigger second repository
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GENERATE_MARKDOWN_TOKEN }}
+        event-type: trigger-second-repo
+        client-payload: '{"repository": "personal-tuva-docs"}'

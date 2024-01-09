@@ -11,28 +11,11 @@ on:
 jobs:
   generate_markdown:
     runs-on: ubuntu-latest
+    if: contains( github.event.push.labels.*.name, 'docs')
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-
-    - name: Check for specific label
-      id: label-check
-      run: |
-        echo '${{ toJson(github.event.pull_request.labels) }}' > labels.json
-        LABEL=$(jq -r '.[] | select(.name == "docs") | .name' labels.json)
-        if [ "$LABEL" == "docs" ]; then
-          echo "Label 'docs' found."
-          echo "label_present=true" >> $GITHUB_ENV
-        else
-          echo "Label 'docs' not found."
-          echo "label_present=false" >> $GITHUB_ENV
-        fi
-
-    - name: Run Job if Label is Present
-      if: env.label_present == 'true'
-      run: |
-        echo "Running job because 'docs' label is present on the merged pull request."
 
     - name: Set up Python
       uses: actions/setup-python@v2

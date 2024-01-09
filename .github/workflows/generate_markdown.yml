@@ -2,9 +2,11 @@ name: Generate Markdown
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
       - main
+    tags:        
+      - docs
 
 jobs:
   generate_markdown:

@@ -34,9 +34,10 @@ jobs:
         name: markdown-artifact
         path: .github/output.md
 
-    - name: Dispatch event to trigger second repository
-      uses: peter-evans/repository-dispatch@v2
-      with:
-        token: ${{ secrets.GENERATE_MARKDOWN_TOKEN }}
-        event-type: trigger-second-repo
-        client-payload: '{"repository": "personal-tuva-docs"}'
+    - name: Trigger Repository Dispatch
+      run: |
+        curl -X POST \
+          -H "Accept: application/vnd.github.everest-preview+json" \
+          -H "Authorization: token ${{ secrets.CROSS_REPO_TRIGGER }}" \
+          https://api.github.com/repos/thutuva/copy-docs/dispatches \
+          -d '{"event_type": "triggered_from_repo_a"}'

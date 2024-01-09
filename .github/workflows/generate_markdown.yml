@@ -16,16 +16,23 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Check for docs tag
-      id: check-tag
+    - name: Check for specific label
+      id: label-check
       run: |
-        TAG_PRESENT=$(git tag --contains HEAD | grep -c "docs")
-        echo "::set-output name=tag_present::$TAG_PRESENT"
+        LABEL_EXISTS=$(echo '${{ toJson(github.event.pull_request.labels) }}' | grep -o '"name": "docs"' || echo "")
+        if [ -n "$LABEL_EXISTS" ]; then
+          echo "Label 'docs' found."
+          echo "::set-output name=label_present::true"
+        else
+          echo "Label 'docs' not found."
+          echo "::set-output name=label_present::false"
+        fi
 
-    - name: Run Job if Tag is Present
-      if: steps.check-tag.outputs.tag_present == '1'
+    - name: Run Job if Label is Present
+      if: steps.label-check.outputs.label_present == 'true'
       run: |
-        echo "Running job because 'docs' tag is present on the latest commit in main."
+        echo "Running job because 'docs' label is present on the merged pull request."
+
 
     - name: Set up Python
       uses: actions/setup-python@v2

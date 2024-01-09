@@ -16,6 +16,17 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Check for docs tag
+      id: check-tag
+      run: |
+        TAG_PRESENT=$(git tag --contains HEAD | grep -c "docs")
+        echo "::set-output name=tag_present::$TAG_PRESENT"
+
+    - name: Run Job if Tag is Present
+      if: steps.check-tag.outputs.tag_present == '1'
+      run: |
+        echo "Running job because 'docs' tag is present on the latest commit in main."
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:

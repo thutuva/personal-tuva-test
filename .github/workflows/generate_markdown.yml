@@ -19,20 +19,19 @@ jobs:
     - name: Check for specific label
       id: label-check
       run: |
-        LABEL_EXISTS=$(echo '${{ toJson(github.event.pull_request.labels) }}' | grep -o '"name": "docs"' || echo "")
-        if [ -n "$LABEL_EXISTS" ]; then
+        LABEL=$(echo '${{ toJson(github.event.pull_request.labels) }}' | jq -r '.[] | select(.name == "docs") | .name')
+        if [ "$LABEL" == "docs" ]; then
           echo "Label 'docs' found."
-          echo "::set-output name=label_present::true"
+          echo "label_present=true" >> $GITHUB_ENV
         else
           echo "Label 'docs' not found."
-          echo "::set-output name=label_present::false"
+          echo "label_present=false" >> $GITHUB_ENV
         fi
 
     - name: Run Job if Label is Present
-      if: steps.label-check.outputs.label_present == 'true'
+      if: env.label_present == 'true'
       run: |
         echo "Running job because 'docs' label is present on the merged pull request."
-
 
     - name: Set up Python
       uses: actions/setup-python@v2

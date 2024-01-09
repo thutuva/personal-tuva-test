@@ -19,7 +19,8 @@ jobs:
     - name: Check for specific label
       id: label-check
       run: |
-        LABEL=$(echo '${{ toJson(github.event.pull_request.labels) }}' | jq -r '.[] | select(.name == "docs") | .name')
+        echo '${{ toJson(github.event.pull_request.labels) }}' > labels.json
+        LABEL=$(jq -r '.[] | select(.name == "docs") | .name' labels.json)
         if [ "$LABEL" == "docs" ]; then
           echo "Label 'docs' found."
           echo "label_present=true" >> $GITHUB_ENV

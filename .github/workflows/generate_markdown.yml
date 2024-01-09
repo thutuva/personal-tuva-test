@@ -15,11 +15,6 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Run only on merged PRs with docs label
-      if: github.event_name == 'pull_request' && github.event.action == 'closed' && contains(github.event.pull_request.labels.*.name, 'docs') && github.event.pull_request.merged
-      run: |
-        echo "Merged PR with 'docs' label detected. Run your build steps here."
-
     - name: Set up Python
       uses: actions/setup-python@v2
       with:

@@ -8,8 +8,9 @@ with measures_unioned as (
 
     select * from {{ ref('quality_measures__int_nqf2372_long') }}
     union all
-
     select * from {{ ref('quality_measures__int_nqf0034_long') }}
+    union all
+    select * from {{ ref('quality_measures__int_nqf0059_long') }}
 )
 
 , add_data_types as (
@@ -37,6 +38,11 @@ select
     , numerator_flag
     , exclusion_flag
     , evidence_date
+    , case
+        when exclusion_flag = 1 then null
+        when numerator_flag = 1 then 1
+        when denominator_flag = 1 then 0
+        else null end as performance_flag
     , exclusion_date
     , exclusion_reason
     , performance_period_begin
